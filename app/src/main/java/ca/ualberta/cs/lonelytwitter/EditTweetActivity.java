@@ -24,7 +24,13 @@ public class EditTweetActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tweet);
+        //Bundle extras = getIntent().getExtras();
+        //editTweet = extras.getString("editTweet");
         editTweetsList = (ListView) findViewById(R.id.editTweetsList);
+        //editTweetList.add(editTweet);
+        //adapter = new ArrayAdapter<String>(this,
+                //R.layout.list_item, editTweetList);
+        //editTweetsList.setAdapter(adapter);
     }
 
     @Override
@@ -32,11 +38,23 @@ public class EditTweetActivity extends Activity {
         super.onStart();
         Bundle extras = getIntent().getExtras();
         editTweet = extras.getString("editTweet");
-        Toast.makeText(getBaseContext(),editTweet + "", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(),editTweet + "", Toast.LENGTH_SHORT).show();
+
         editTweetList.add(editTweet);
         adapter = new ArrayAdapter<String>(this,
                 R.layout.list_item, editTweetList);
         editTweetsList.setAdapter(adapter);
+
+        String testString1 = (String) editTweetsList.getItemAtPosition(0);
+
+        if(testString1.equals("Test Tweet!")){
+            //String testString1 = (String) editTweetsList.getItemAtPosition(0);
+            Toast.makeText(getBaseContext(), testString1 + "", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
 }

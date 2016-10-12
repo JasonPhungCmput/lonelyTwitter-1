@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.robotium.solo.Solo;
 
@@ -15,6 +16,7 @@ import com.robotium.solo.Solo;
 public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2<LonelyTwitterActivity> {
 
     private Solo solo;
+    //private String testingString = "Test Tweet!";
 
     public LonelyTwitterActivityTest() {
         super(ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity.class);
@@ -28,7 +30,7 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2<
         Log.d("TAG1", "setUp()");
         solo = new Solo(getInstrumentation(),getActivity());
     }
-/*
+
     public void testTweet(){
         solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
         solo.clickOnButton("Clear");
@@ -42,8 +44,8 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2<
         solo.clickOnButton("Clear");
         assertFalse(solo.waitForText("Test Tweet!"));
     }
-    */
-/*
+
+
     public void testClickTweetList(){
         LonelyTwitterActivity activity = (LonelyTwitterActivity) solo.getCurrentActivity();
         solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
@@ -68,9 +70,8 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2<
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
     }
-*/
+
     public void testClickEditTweetList(){
-        LonelyTwitterActivity activity = (LonelyTwitterActivity) solo.getCurrentActivity();
         solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
         solo.clickOnButton("Clear");
 
@@ -80,16 +81,18 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2<
         solo.clickInList(0);
         solo.assertCurrentActivity("Wrong Activity", EditTweetActivity.class);
 
+        solo.sleep(100);
         EditTweetActivity activity1 = (EditTweetActivity) solo.getCurrentActivity();
+        solo.sleep(100);
         final ListView editTweetsList = activity1.getEditTweetsList();
         String testString = (String) editTweetsList.getItemAtPosition(0);
-        //Tweet tweet = (Tweet) editTweetsList.getItemAtPosition(0);
         assertEquals("Test Tweet!", testString);
 
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
 
     }
+
 
     @Override
     public void tearDown() throws Exception{
