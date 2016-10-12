@@ -24,10 +24,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -68,11 +70,18 @@ public class LonelyTwitterActivity extends Activity {
 	 * @see #loadFromFile()
 	 * @see #saveInFile()
 	 */
+	private Activity activity = this;
 	private static final String FILE_NAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
 	private ArrayAdapter<Tweet> adapter;
+
+	public ListView getOldTweetsList(){
+		return oldTweetsList;
+	}
+
+	private Tweet tweet;
 
 	/**
 	 * Called when the activity is first created. It identifies the bodyText, oldTweetsList and
@@ -125,6 +134,19 @@ public class LonelyTwitterActivity extends Activity {
 				saveInFile();
 			}
 		});
+
+		oldTweetsList.setOnItemClickListener(new
+				AdapterView.OnItemClickListener(){
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
+				Intent intent = new Intent(activity, EditTweetActivity.class);
+				tweet = (Tweet) tweetList.get(position);
+				//Toast.makeText(getBaseContext(), tweet.toString() + "", Toast.LENGTH_SHORT).show();
+				intent.putExtra("editTweet",tweet.getMessage());
+				startActivity(intent);
+			}
+		});
+
 	}
 
 	/**
@@ -135,6 +157,7 @@ public class LonelyTwitterActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 		loadFromFile();
+		//tweet = (Tweet) tweetList.get(0);
 		adapter = new ArrayAdapter<Tweet>(this,
 				R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
